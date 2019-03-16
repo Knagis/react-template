@@ -1,0 +1,12 @@
+{
+  "name": "react-template",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+  },
+  "scripts": {
+    "build": "yarn --cwd=build webpack --mode=production",
+    "watch": "yarn --cwd=build webpack --mode=development --watch",
+    "postinstall": "yarn --cwd=build install && yarn --cwd=src install"
+  }
+}

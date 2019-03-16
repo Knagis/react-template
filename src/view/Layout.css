@@ -1,0 +1,17 @@
+:global(body) {
+    background: #222;
+    color: white;
+}
+
+.container {
+    font-weight: bold;
+}
+
+.container:before {
+    background: url("./check-icon.png");
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    background-size: cover;
+    content: "";
+}
