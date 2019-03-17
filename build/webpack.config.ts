@@ -56,7 +56,7 @@ function config(env: any, argv: any): webpack.Configuration {
             }),
             new ExtractCssChunksWebpackPlugin({
                 filename: mode === "development" ? "[name].css" : "[name].[contenthash:5].css",
-                chunkFilename: mode === "development" ? "[name].css" : "[id].[contenthash:5].css",
+                chunkFilename: mode === "development" ? "[id].css" : "[id].[contenthash:5].css",
             }),
             new CleanWebpackPlugin({
                 cleanStaleWebpackAssets: false,
