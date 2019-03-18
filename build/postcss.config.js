@@ -30,22 +30,6 @@ module.exports = {
             },
             url: "inline",
             optimizeSvgEncode: true,
-        }, {
-            url: (asset, dir, options, decl, warn, result) => {
-                // Convert url() paths for imported resources
-
-                if (!asset.url.startsWith(".")) {
-                    // maintain original absolute url
-                    return asset.url;
-                } else if (!asset.relativePath.startsWith(".")) {
-                    // relative path into the current directory. by default postcss-url removes the leading `./
-                    // without which webpack will look into node_modules, not current directory.
-                    return "./" + asset.relativePath.replace(/\\/g, "/");
-                } else {
-                    // relative url that was changed to match the file where the source was imported into
-                    return asset.relativePath.replace(/\\/g, "/");
-                }
-            },
         }]),
         require("postcss-nested"),
         require("postcss-property-lookup"),
@@ -57,6 +41,7 @@ module.exports = {
                 "Safari>=10.1",
                 "Edge>=15",
                 "Firefox>=52",
+                "Chrome>=48",
             ],
         }),
     ],
