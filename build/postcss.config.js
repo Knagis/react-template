@@ -3,7 +3,7 @@ const path = require("path");
 
 module.exports = {
     plugins: [
-        // require("./postcss-banner"),
+        require("./postcss-banner"),
         require("postcss-advanced-variables")(),
         require("postcss-url")([{
             filter: (asset) => {
