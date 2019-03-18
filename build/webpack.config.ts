@@ -19,26 +19,55 @@ function config(env: any, argv: any): webpack.Configuration {
                 test: /\.tsx?$/,
                 use: "ts-loader",
             }, {
-                test: /\.css$/,
+                test: /\.p?css$/,
                 use: [
                     ExtractCssChunksWebpackPlugin.loader,
                     {
                         loader: "css-loader",
                         options: {
                             modules: true,
+                            url: true,
+                            importLoaders: 1,
                             localIdentName: "[local]--[hash:5]",
+                        },
+                    },
+                    {
+                        loader: "postcss-loader",
+                        options: {
+                            config: {
+                                path: "./",
+                            },
                         },
                     },
                 ],
             }, {
-                test: /\.(png|jpg)$/,
-                use: {
-                    loader: "file-loader",
-                    options: {
-                        name: "images/[name]-[hash:5].[ext]",
+                test: /\.(svg|jpg|png|gif)$/,
+                oneOf: [{
+                    resourceQuery: /download/, // require("./foo.svg?download")
+                    use: {
+                        loader: "file-loader",
+                        options: {
+                            name: "images/[name].[hash:5].[ext]",
+                        },
                     },
-                },
-            }],
+                }, {
+                    resourceQuery: /embed|inline/, // require("./foo.svg?inline")
+                    use: {
+                        loader: "url-loader",
+                        options: {
+                            name: "images/[name].[hash:5].[ext]",
+                        },
+                    },
+                }, {
+                    use: {
+                        loader: "url-loader",
+                        options: {
+                            limit: 1024,
+                            name: "images/[name].[hash:5].[ext]",
+                        },
+                    },
+                }],
+            },],
         },
         resolve: {
             extensions: [".tsx", ".ts", ".js"],
@@ -51,6 +80,7 @@ function config(env: any, argv: any): webpack.Configuration {
             path: path.resolve(__dirname, "..", "dist"),
         },
         plugins: [
+            new webpack.optimize.ModuleConcatenationPlugin(),
             new HtmlWebpackPlugin({
                 template: "./src/index.html",
             }),
@@ -58,9 +88,7 @@ function config(env: any, argv: any): webpack.Configuration {
                 filename: mode === "development" ? "[name].css" : "[name].[contenthash:5].css",
                 chunkFilename: mode === "development" ? "[id].css" : "[id].[contenthash:5].css",
             }),
-            new CleanWebpackPlugin({
-                cleanStaleWebpackAssets: false,
-            }),
+            new CleanWebpackPlugin(),
         ],
     };
 }

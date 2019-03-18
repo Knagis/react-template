@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as styles from "./Layout.css";
+import * as styles from "./Layout.pcss";
 
 export class Layout extends React.PureComponent {
     public render() {
